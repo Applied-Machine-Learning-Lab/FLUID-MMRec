@@ -1,0 +1,148 @@
+gpu_id: '0'
+device: "cuda"
+seed: 2000
+log_wandb: False
+checkpoint_dir: 'saved'
+
+# MultiModalMambaRec model settings
+id_embedding_dim: 128          
+num_attention_heads: 8      
+hidden_size: 128              
+dropout_prob: 0.2            
+loss_type: 'CE'               
+
+bottleneck:
+    dim: 256                    
+    beta: 1.0                   
+    weight: 0.1                 
+    use_stein: True            
+    kernel_type: 'rbf'         
+    bandwidth_factor: 1.0      
+    entropy_weight: 0.01       
+
+    adaptive_bandwidth: True    
+    min_bandwidth: 0.1         
+    max_bandwidth: 10.0       
+    alignment_dropout: 0.1     
+    layer_norm_eps: 1e-12      
+    score_hidden_ratio: 2      
+
+
+stein:
+    kernel_type: 'rbf'         
+    adaptive_bandwidth: True   
+    min_bandwidth: 0.1        
+    max_bandwidth: 10.0       
+
+mamba:
+    d_state: 16
+    d_conv: 4
+    expand: 2
+    norm_eps: 1e-5
+    hidden_dim: 128    
+    num_layers: 2
+
+
+feed_forward:
+    d_ff: 512         
+    dropout: 0.2
+    layer_norm_eps: 1e-12
+
+attention:
+    num_heads: 8             
+    dropout: 0.2              
+    use_bias: True            
+
+
+multimodal:
+    hidden_size: 256
+    projection_dropout: 0.2
+    fusion_dropout: 0.2
+    feature_dropout: 0.2
+    alignment_hidden: 256
+    alignment_dropout: 0.2
+    use_bottleneck: True
+    
+expert:
+    num_experts: 4           
+    hidden_size: 256        
+    output_dim: 128         
+    dropout: 0.2
+
+router:
+    hidden_size: 256        
+    dropout: 0.1
+
+multimodal:
+    hidden_size: 256         
+    projection_dropout: 0.1  
+    fusion_dropout: 0.1     
+    feature_dropout: 0.1   
+
+
+text:
+    feature_dim: 1024       
+    projection_dim: 256     
+    layer_norm_eps: 1e-12   
+
+
+image:
+    feature_dim: 1024       
+    projection_dim: 256     
+    layer_norm_eps: 1e-12   
+
+feature_fusion:
+    hidden_size: 256        
+    dropout: 0.2           
+    activation: 'gelu'    
+    use_residual: True     
+
+# Feature Paths
+feature_paths:
+    image_feature_path: "emb/MicroLens-100k_image_features_CLIPRN50.npy"
+    text_feature_path: "emb/MicroLens-100k_title_en_text_features_BgeM3.npy"
+
+# Dataset Settings
+dataset: micro-lens-100k-mm
+MAX_ITEM_LIST_LENGTH: 50
+field_separator: ","
+seq_separator: " "
+USER_ID_FIELD: user_id
+ITEM_ID_FIELD: item_id
+load_col:
+    inter: [user_id, item_id, timestamp]
+user_inter_num_interval: "[5,inf)"
+item_inter_num_interval: "[5,inf)"
+
+epochs: 100                    
+train_batch_size: 128        
+eval_batch_size: 128         
+gradient_clip_norm: 2.0       
+
+
+learner: adamW                
+learning_rate: 0.001          
+weight_decay: 0.01            
+scheduler: cosine             
+warmup_steps: 2000            
+
+
+gradient_accumulation_steps: 1  
+eval_step: 1                   
+stopping_step: 5              
+train_neg_sample_args: ~       
+
+
+# Evaluation Settings
+metrics: ['Hit', 'NDCG', 'MRR']
+valid_metric: NDCG@20
+topk: [10, 20]
+
+
+memory_optimize: True            
+cache_size: 3                    
+clear_cache_step: 100         
+
+num_workers: 4                   
+prefetch_factor: 2              
+pin_memory: True                
