@@ -16,13 +16,13 @@ from recbole.utils import (
 )
 
 # Import your model
-from dpsen_v10 import MultiModalMoERec
+from Fluid_MM import MultiModalMoERec
 
 def main():
     # Initialize configuration with your model and config file
     parameter_dict = {
         'dataset': 'micro-lens-100k-mm',  
-        'config_file_list': ['config_dpsen5.yaml']  
+        'config_file_list': ['config.yaml']  
     }
     
     config = Config(
