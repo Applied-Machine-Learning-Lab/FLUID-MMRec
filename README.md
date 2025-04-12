@@ -1,8 +1,8 @@
 # FLUID-MMRec
 
-Please use RecBole Framework to run our code.
+Please use the public RecBole Framework to run our code.
 
-We tried to upload the RecBole Framework but encountered a git error: 
+We also tried to upload the RecBole Framework but encountered a git error: 
 
 On branch main
 Your branch is ahead of 'origin/main' by 1 commit.
