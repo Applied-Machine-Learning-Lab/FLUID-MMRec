@@ -1,4 +1,4 @@
-# FLUID-MMRec
+# FindRec(Previuosly named FLUID-MMRec)
 
 Please use the public RecBole Framework to run our code.
 
